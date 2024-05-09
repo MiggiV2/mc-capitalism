@@ -1,7 +1,6 @@
 package de.mymiggi.mc.commands;
 
 import de.mymiggi.mc.money.Bank;
-import de.mymiggi.mc.util.AbstractMaterialCommand;
 import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;

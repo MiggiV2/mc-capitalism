@@ -1,7 +1,8 @@
-package de.mymiggi.mc.util;
+package de.mymiggi.mc.commands;
 
 import de.mymiggi.mc.money.Bank;
 import de.mymiggi.mc.money.Shop;
+import de.mymiggi.mc.util.SellBuyArgParser;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -1,21 +1,17 @@
 package de.mymiggi.mc.commands;
 
 import de.mymiggi.mc.money.Bank;
-import de.mymiggi.mc.util.AbstractMaterialCommand;
 import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.math.BigInteger;
 import java.util.Map;
 
 public class CommandSell extends AbstractMaterialCommand implements CommandExecutor
 {
-	private static final Logger log = LoggerFactory.getLogger(CommandSell.class);
-
 	public CommandSell(Bank bank)
 	{
 		super(bank);
@@ -38,7 +34,9 @@ public class CommandSell extends AbstractMaterialCommand implements CommandExecu
 		if (itemSum >= howMany)
 		{
 			removeItems(inventory, material, howMany);
-			bank.addToBalance(player, shop.moneyForSelling(material) * howMany);
+			BigInteger materialPrize = BigInteger.valueOf(shop.moneyForSelling(material));
+			BigInteger quanitity = BigInteger.valueOf(howMany);
+			bank.addToBalance(player, materialPrize.multiply(quanitity));
 			player.sendMessage("Bank: You new balance is " + bank.getBalance(player));
 		}
 		else

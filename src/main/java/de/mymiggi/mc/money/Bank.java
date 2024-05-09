@@ -2,33 +2,61 @@ package de.mymiggi.mc.money;
 
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
+import java.math.BigInteger;
 import java.util.Map;
-import java.util.UUID;
 
 public class Bank
 {
-	private final Map<UUID, Integer> userMoneyMap = new HashMap<>();
+	private final Map<String, BigInteger> userMoneyMap;
+	private final BankRepository repository = new BankRepository();
 
-	public void addToBalance(Player player, int amount)
+	public Bank()
 	{
-		int balance = getBalance(player);
-		userMoneyMap.put(player.getUniqueId(), balance + amount);
+		this.userMoneyMap = repository.readData();
+	}
+
+	public void addToBalance(Player player, BigInteger amount)
+	{
+		BigInteger balance = getBalance(player);
+		userMoneyMap.put(player.getName(), balance.add(amount));
+		persist();
 	}
 
 	public boolean removeFromBalance(Player player, int amount)
 	{
-		int balance = getBalance(player);
-		if (balance < amount)
+		BigInteger balance = getBalance(player);
+		BigInteger toRemove = BigInteger.valueOf(amount);
+		if (balance.compareTo(toRemove) < 0)
 		{
 			return false;
 		}
-		userMoneyMap.put(player.getUniqueId(), balance - amount);
+		userMoneyMap.put(player.getName(), balance.subtract(toRemove));
+		persist();
 		return true;
 	}
 
-	public int getBalance(Player player)
+	public BigInteger getBalance(Player player)
 	{
-		return userMoneyMap.getOrDefault(player.getUniqueId(), 0);
+		return userMoneyMap.getOrDefault(player.getName(), BigInteger.ZERO);
+	}
+
+	private void persist()
+	{
+		Thread thread = new Thread(() -> {
+			repository.writeToFile(this.toString());
+		});
+		thread.start();
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder data = new StringBuilder();
+		for (String key : userMoneyMap.keySet())
+		{
+			String newLine = String.format("%d;%s\n", userMoneyMap.get(key), key);
+			data.append(newLine);
+		}
+		return data.toString();
 	}
 }
