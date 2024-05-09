@@ -22,15 +22,14 @@ public class Bank
 		persist();
 	}
 
-	public boolean removeFromBalance(Player player, int amount)
+	public boolean removeFromBalance(Player player, BigInteger amount)
 	{
 		BigInteger balance = getBalance(player);
-		BigInteger toRemove = BigInteger.valueOf(amount);
-		if (balance.compareTo(toRemove) < 0)
+		if (balance.compareTo(amount) < 0)
 		{
 			return false;
 		}
-		userMoneyMap.put(player.getName(), balance.subtract(toRemove));
+		userMoneyMap.put(player.getName(), balance.subtract(amount));
 		persist();
 		return true;
 	}

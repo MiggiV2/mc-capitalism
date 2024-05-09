@@ -13,6 +13,9 @@ commands:
   buy:
     description: "Buy blocks for money"
     usage: "/buy amount block-type"
+  money2:
+    description: "Send money to other player"
+    usage: "/money2 PlayerName amount"
     #aliases: [cmd, command]
     #permission: permission.node
     #permission-message: "You do not have permission to use this command"

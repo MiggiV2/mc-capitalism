@@ -2,7 +2,6 @@ package de.mymiggi.mc.commands;
 
 import de.mymiggi.mc.money.Bank;
 import org.bukkit.Material;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.math.BigInteger;
 import java.util.Map;
 
-public class CommandSell extends AbstractMaterialCommand implements CommandExecutor
+public class CommandSell extends AbstractMaterialCommand
 {
 	public CommandSell(Bank bank)
 	{

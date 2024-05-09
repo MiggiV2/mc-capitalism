@@ -2,11 +2,12 @@ package de.mymiggi.mc.commands;
 
 import de.mymiggi.mc.money.Bank;
 import org.bukkit.Material;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CommandBuy extends AbstractMaterialCommand implements CommandExecutor
+import java.math.BigInteger;
+
+public class CommandBuy extends AbstractMaterialCommand
 {
 	public CommandBuy(Bank bank)
 	{
@@ -22,7 +23,7 @@ public class CommandBuy extends AbstractMaterialCommand implements CommandExecut
 			player.sendMessage("Store: This item is not for sale!");
 			return true;
 		}
-		boolean transactionSuccessful = bank.removeFromBalance(player, totalPrize);
+		boolean transactionSuccessful = bank.removeFromBalance(player, BigInteger.valueOf(totalPrize));
 		if (transactionSuccessful)
 		{
 			ItemStack newItems = new ItemStack(material);
