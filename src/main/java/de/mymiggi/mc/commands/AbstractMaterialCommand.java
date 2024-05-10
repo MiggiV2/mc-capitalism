@@ -47,6 +47,14 @@ abstract public class AbstractMaterialCommand implements CommandExecutor
 			SellBuyArgParser parser = new SellBuyArgParser();
 			int howMany = parser.parseOrOne(args[0]);
 
+			// overflow prevention
+			int maxInventorySpace = 2560;
+			if (howMany > maxInventorySpace || howMany < 0)
+			{
+				player.sendMessage("Only numbers between 0 and " + maxInventorySpace + " are allowed!");
+				return true;
+			}
+
 			return runCommand(player, material, howMany);
 		}
 		return true;

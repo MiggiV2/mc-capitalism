@@ -17,7 +17,7 @@ public class CommandBuy extends AbstractMaterialCommand
 	@Override
 	protected boolean runCommand(Player player, Material material, int howMany)
 	{
-		int totalPrize = shop.prizeForBuying(material) * howMany;
+		long totalPrize = shop.prizeForBuying(material) * (long)howMany;
 		if (totalPrize < 0)
 		{
 			player.sendMessage("Store: This item is not for sale!");
