@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
 import java.util.Map;
 
 public class CommandSell extends AbstractMaterialCommand
@@ -19,23 +18,21 @@ public class CommandSell extends AbstractMaterialCommand
 	@Override
 	protected boolean runCommand(Player player, Material material, int howMany)
 	{
-		Inventory inventory = player.getInventory();
 		boolean isSaleAble = shop.moneyForSelling(material) * howMany > 0;
-		int itemSum = inventory.all(material).values()
-			.stream()
-			.map(ItemStack::getAmount)
-			.reduce(0, Integer::sum);
 		if (!isSaleAble)
 		{
 			player.sendMessage("Store: You can't sell this item!");
 			return true;
 		}
+		Inventory inventory = player.getInventory();
+		int itemSum = inventory.all(material).values()
+			.stream()
+			.map(ItemStack::getAmount)
+			.reduce(0, Integer::sum);
 		if (itemSum >= howMany)
 		{
 			removeItems(inventory, material, howMany);
-			BigInteger materialPrize = BigInteger.valueOf(shop.moneyForSelling(material));
-			BigInteger quanitity = BigInteger.valueOf(howMany);
-			bank.addToBalance(player, materialPrize.multiply(quanitity));
+			bank.addToBalance(player, (long)shop.moneyForSelling(material) * howMany);
 			player.sendMessage("Bank: You new balance is " + bank.getBalance(player));
 		}
 		else

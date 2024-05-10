@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 
 public class CommandSendMoney implements CommandExecutor
@@ -54,12 +53,7 @@ public class CommandSendMoney implements CommandExecutor
 	{
 		try
 		{
-			long amountL = Long.parseLong(moneyToMove);
-			if (amountL < 0)
-			{
-				throw new IllegalAccessException();
-			}
-			BigInteger amount = BigInteger.valueOf(amountL);
+			long amount = Long.parseLong(moneyToMove);
 			boolean success = bank.removeFromBalance(playerSend, amount);
 			if (success)
 			{
@@ -78,7 +72,7 @@ public class CommandSendMoney implements CommandExecutor
 		{
 			playerSend.sendMessage("Bank: We can't send " + moneyToMove);
 		}
-		catch (IllegalAccessException e)
+		catch (IllegalArgumentException e)
 		{
 			playerSend.sendMessage("Bank: You have no permission to scam " + payerTo.getName());
 		}

@@ -5,8 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.math.BigInteger;
-
 public class CommandBuy extends AbstractMaterialCommand
 {
 	public CommandBuy(Bank bank)
@@ -23,12 +21,18 @@ public class CommandBuy extends AbstractMaterialCommand
 			player.sendMessage("Store: This item is not for sale!");
 			return true;
 		}
-		boolean transactionSuccessful = bank.removeFromBalance(player, BigInteger.valueOf(totalPrize));
+		boolean transactionSuccessful = bank.removeFromBalance(player, totalPrize);
 		if (transactionSuccessful)
 		{
-			ItemStack newItems = new ItemStack(material);
-			newItems.setAmount(howMany);
-			player.getInventory().addItem(newItems);
+			int addedItems = 0;
+			while (addedItems < howMany)
+			{
+				int stackSize = Math.min(howMany, 64);
+				ItemStack newItems = new ItemStack(material);
+				newItems.setAmount(stackSize);
+				player.getInventory().addItem(newItems);
+				addedItems += stackSize;
+			}
 			player.sendMessage("Bank: You new balance is " + bank.getBalance(player));
 		}
 		else

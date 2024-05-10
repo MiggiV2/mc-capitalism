@@ -15,21 +15,25 @@ public class Bank
 		this.userMoneyMap = repository.readData();
 	}
 
-	public void addToBalance(Player player, BigInteger amount)
+	public void addToBalance(Player player, long amount)
 	{
+		positivCheck(amount);
 		BigInteger balance = getBalance(player);
-		userMoneyMap.put(player.getName(), balance.add(amount));
+		BigInteger money = BigInteger.valueOf(amount);
+		userMoneyMap.put(player.getName(), balance.add(money));
 		persist();
 	}
 
-	public boolean removeFromBalance(Player player, BigInteger amount)
+	public boolean removeFromBalance(Player player, long amount)
 	{
+		positivCheck(amount);
 		BigInteger balance = getBalance(player);
-		if (balance.compareTo(amount) < 0)
+		BigInteger money = BigInteger.valueOf(amount);
+		if (balance.compareTo(money) < 0)
 		{
 			return false;
 		}
-		userMoneyMap.put(player.getName(), balance.subtract(amount));
+		userMoneyMap.put(player.getName(), balance.subtract(money));
 		persist();
 		return true;
 	}
@@ -45,6 +49,14 @@ public class Bank
 			repository.writeToFile(this.toString());
 		});
 		thread.start();
+	}
+
+	private void positivCheck(long money)
+	{
+		if (money < 0)
+		{
+			throw new IllegalArgumentException("We can only process positive amount of money!");
+		}
 	}
 
 	@Override
