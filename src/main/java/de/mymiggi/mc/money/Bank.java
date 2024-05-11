@@ -18,37 +18,43 @@ public class Bank
 	public void addToBalance(Player player, long amount)
 	{
 		positivCheck(amount);
-		BigInteger balance = getBalance(player);
 		BigInteger money = BigInteger.valueOf(amount);
-		userMoneyMap.put(player.getName(), balance.add(money));
-		persist();
+		synchronized (userMoneyMap)
+		{
+			BigInteger balance = getBalance(player);
+			userMoneyMap.put(player.getName(), balance.add(money));
+			persist();
+		}
 	}
 
 	public boolean removeFromBalance(Player player, long amount)
 	{
 		positivCheck(amount);
-		BigInteger balance = getBalance(player);
 		BigInteger money = BigInteger.valueOf(amount);
-		if (balance.compareTo(money) < 0)
+		synchronized (userMoneyMap)
 		{
-			return false;
+			BigInteger balance = getBalance(player);
+			if (balance.compareTo(money) < 0)
+			{
+				return false;
+			}
+			userMoneyMap.put(player.getName(), balance.subtract(money));
+			persist();
 		}
-		userMoneyMap.put(player.getName(), balance.subtract(money));
-		persist();
 		return true;
 	}
 
 	public BigInteger getBalance(Player player)
 	{
-		return userMoneyMap.getOrDefault(player.getName(), BigInteger.ZERO);
+		synchronized (userMoneyMap)
+		{
+			return userMoneyMap.getOrDefault(player.getName(), BigInteger.ZERO);
+		}
 	}
 
 	private void persist()
 	{
-		Thread thread = new Thread(() -> {
-			repository.writeToFile(this.toString());
-		});
-		thread.start();
+		repository.writeToFile(this.toString());
 	}
 
 	private void positivCheck(long money)
