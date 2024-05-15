@@ -5,11 +5,12 @@ import org.bukkit.Material;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class Shop
 {
-	Map<Material, Integer> materialMoneyMap = new HashMap<>();
-	Map<String, Material> aliasMap = new HashMap<>();
+	private final Map<Material, Integer> materialMoneyMap = new HashMap<>();
+	private final Map<String, Material> aliasMap = new HashMap<>();
 
 	public Shop()
 	{
@@ -26,6 +27,11 @@ public class Shop
 		aliasMap.put("GOLD", Material.GOLD_INGOT);
 	}
 
+	public Set<Material> listMaterials()
+	{
+		return this.materialMoneyMap.keySet();
+	}
+
 	public int moneyForSelling(Material material)
 	{
 		return materialMoneyMap.getOrDefault(material, 0);
@@ -34,6 +40,18 @@ public class Shop
 	public int prizeForBuying(Material material)
 	{
 		return (int)(materialMoneyMap.getOrDefault(material, -1) * 1.3);
+	}
+
+	public String getAliasOrDefaultName(Material material)
+	{
+		for (String temp : aliasMap.keySet())
+		{
+			if (material.name().equals(aliasMap.get(temp).name()))
+			{
+				return temp;
+			}
+		}
+		return material.name();
 	}
 
 	public Optional<Material> getMaterialByName(String name)

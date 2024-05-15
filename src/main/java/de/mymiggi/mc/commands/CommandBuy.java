@@ -37,7 +37,7 @@ public class CommandBuy extends AbstractMaterialCommand
 		}
 		else
 		{
-			player.sendMessage("Store: You have not enough money to buy this...");
+			player.sendMessage(String.format("Store: You can't effort %s to by %s...", totalPrize, material.name()));
 		}
 		return true;
 	}

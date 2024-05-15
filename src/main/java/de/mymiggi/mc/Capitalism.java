@@ -3,6 +3,7 @@ package de.mymiggi.mc;
 import de.mymiggi.mc.commands.CommandBuy;
 import de.mymiggi.mc.commands.CommandSell;
 import de.mymiggi.mc.commands.CommandSendMoney;
+import de.mymiggi.mc.commands.CommandStore;
 import de.mymiggi.mc.money.Bank;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +28,9 @@ public final class Capitalism extends JavaPlugin
 
 		CommandSendMoney money2 = new CommandSendMoney(getServer(), bank);
 		Objects.requireNonNull(getCommand("money2")).setExecutor(money2);
+
+		CommandStore store = new CommandStore();
+		Objects.requireNonNull(getCommand("store")).setExecutor(store);
 	}
 
 	@Override
