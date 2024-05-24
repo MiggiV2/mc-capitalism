@@ -19,7 +19,7 @@ public class CommandStore implements CommandExecutor
 	{
 		if (sender instanceof Player)
 		{
-			StringBuilder message = new StringBuilder("Shop Inventory\n");
+			StringBuilder message = new StringBuilder("Inventory\n");
 			List<Material> sortedMaterials = shop.listMaterials().stream()
 				.sorted((o1, o2) -> Integer.compare(shop.prizeForBuying(o1), shop.prizeForBuying(o2)))
 				.toList();
@@ -28,7 +28,7 @@ public class CommandStore implements CommandExecutor
 				String line = String.format("- %s %d€\n", shop.getAliasOrDefaultName(material), shop.prizeForBuying(material));
 				message.append(line);
 			}
-			sender.sendMessage(message.toString());
+			shop.sendMessage((Player)sender, message.toString());
 		}
 		return true;
 	}

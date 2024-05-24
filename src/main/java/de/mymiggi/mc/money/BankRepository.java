@@ -53,9 +53,14 @@ public class BankRepository
 		Map<String, BigInteger> map = new ConcurrentHashMap<>();
 		try
 		{
-			Path file = Paths.get(DATA_FILE);
+			Path dataPath = Paths.get(DATA_FILE);
+			if (!dataPath.toFile().exists())
+			{
+				return map;
+			}
+
 			Charset charset = StandardCharsets.UTF_8;
-			List<String> content = Files.readAllLines(file, charset);
+			List<String> content = Files.readAllLines(dataPath, charset);
 
 			for (String line : content)
 			{

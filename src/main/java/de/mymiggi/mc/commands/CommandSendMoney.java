@@ -36,45 +36,45 @@ public class CommandSendMoney implements CommandExecutor
 			}
 
 			Player playerSend = (Player)sender;
-			Player payerTo = server.getPlayer(args[0]);
+			Player receiver = server.getPlayer(args[0]);
 
-			if (payerTo == null)
+			if (receiver == null)
 			{
-				playerSend.sendMessage("No Player with name " + args[0] + " found!");
+				bank.sendMessage(playerSend, "No Player with name " + args[0] + " found!");
 				return true;
 			}
 
-			executeTransaction(args[1], playerSend, payerTo);
+			executeTransaction(args[1], playerSend, receiver);
 		}
 		return true;
 	}
 
-	private void executeTransaction(@NotNull String moneyToMove, Player playerSend, Player payerTo)
+	private void executeTransaction(@NotNull String moneyToMove, Player sender, Player receiver)
 	{
 		try
 		{
 			long amount = Long.parseLong(moneyToMove);
-			boolean success = bank.removeFromBalance(playerSend, amount);
+			boolean success = bank.removeFromBalance(sender, amount);
 			if (success)
 			{
-				bank.addToBalance(payerTo, amount);
-				playerSend.sendMessage("Bank: Money successfully send to " + payerTo.getName());
-				payerTo.sendMessage("Bank: You received money from " + playerSend.getName());
-				playerSend.sendMessage("Bank: You new balance is " + bank.getBalance(playerSend));
-				payerTo.sendMessage("Bank: You new balance is " + bank.getBalance(payerTo));
+				bank.addToBalance(receiver, amount);
+				bank.sendMessage(sender, "Money successfully send to " + receiver.getName());
+				bank.sendMessage(sender, "You new balance is " + bank.getBalance(sender));
+				bank.sendMessage(receiver, "You received money from " + sender.getName());
+				bank.sendMessage(receiver, "You new balance is " + bank.getBalance(receiver));
 			}
 			else
 			{
-				playerSend.sendMessage("Bank: You have no enough money!");
+				bank.sendMessage(sender, "You have no enough money!");
 			}
 		}
 		catch (NumberFormatException exception)
 		{
-			playerSend.sendMessage("Bank: We can't send " + moneyToMove);
+			bank.sendMessage(sender, "An error occurred while trying to send your money...");
 		}
 		catch (IllegalArgumentException e)
 		{
-			playerSend.sendMessage("Bank: You have no permission to scam " + payerTo.getName());
+			bank.sendMessage(sender, "You have no permission to scam " + receiver.getName());
 		}
 	}
 }

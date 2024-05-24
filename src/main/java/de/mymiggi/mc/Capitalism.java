@@ -5,6 +5,7 @@ import de.mymiggi.mc.commands.CommandSell;
 import de.mymiggi.mc.commands.CommandSendMoney;
 import de.mymiggi.mc.commands.CommandStore;
 import de.mymiggi.mc.money.Bank;
+import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -16,8 +17,6 @@ public final class Capitalism extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
-		getLogger().info("Loaded Capitalism Plugin!");
-		getServer();
 
 		// Register commands
 		CommandSell sell = new CommandSell(bank);
@@ -31,6 +30,9 @@ public final class Capitalism extends JavaPlugin
 
 		CommandStore store = new CommandStore();
 		Objects.requireNonNull(getCommand("store")).setExecutor(store);
+
+		Server server = getServer();
+		server.getScheduler().runTaskTimer(this, buy::clearUsed, 0, 6000);
 	}
 
 	@Override

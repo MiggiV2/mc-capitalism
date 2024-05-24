@@ -1,16 +1,22 @@
 package de.mymiggi.mc.money;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import static net.kyori.adventure.text.Component.text;
+
 public class Shop
 {
 	private final Map<Material, Integer> materialMoneyMap = new HashMap<>();
 	private final Map<String, Material> aliasMap = new HashMap<>();
+	private final Component prefix = text("Shop: ").color(NamedTextColor.GREEN);
 
 	public Shop()
 	{
@@ -69,5 +75,11 @@ public class Shop
 		{
 			return Optional.empty();
 		}
+	}
+
+	public void sendMessage(Player player, String message)
+	{
+		Component msg = prefix.append(text(message).color(NamedTextColor.WHITE));
+		player.sendMessage(msg);
 	}
 }

@@ -1,14 +1,20 @@
 package de.mymiggi.mc.money;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 
 import java.math.BigInteger;
 import java.util.Map;
 
+import static net.kyori.adventure.text.Component.text;
+
 public class Bank
 {
 	private final Map<String, BigInteger> userMoneyMap;
 	private final BankRepository repository = new BankRepository();
+	private final Component prefix = text("Bank: ").color(TextColor.fromHexString("#ffa500"));
 
 	public Bank()
 	{
@@ -75,5 +81,11 @@ public class Bank
 			data.append(newLine);
 		}
 		return data.toString();
+	}
+
+	public void sendMessage(Player player, String message)
+	{
+		Component msg = prefix.append(text(message).color(NamedTextColor.WHITE));
+		player.sendMessage(msg);
 	}
 }

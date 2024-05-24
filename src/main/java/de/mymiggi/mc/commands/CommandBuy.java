@@ -5,6 +5,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CommandBuy extends AbstractMaterialCommand
 {
 	public CommandBuy(Bank bank)
@@ -12,13 +15,23 @@ public class CommandBuy extends AbstractMaterialCommand
 		super(bank);
 	}
 
+	private final int limit = 5;
+	private final Map<String, Integer> usedMap = new HashMap<>();
+
 	@Override
 	protected boolean runCommand(Player player, Material material, int howMany)
 	{
 		long totalPrize = shop.prizeForBuying(material) * (long)howMany;
 		if (totalPrize < 0)
 		{
-			player.sendMessage("Store: This item is not for sale!");
+			shop.sendMessage(player, "This item is not for sale!");
+			return true;
+		}
+		int usedCount = usedMap.getOrDefault(player.getName(), 0);
+		if (usedCount >= limit)
+		{
+			shop.sendMessage(player, "You have reached your limit of " + limit + " times.");
+			shop.sendMessage(player, "Come back in 5 minutes :)");
 			return true;
 		}
 		boolean transactionSuccessful = bank.removeFromBalance(player, totalPrize);
@@ -33,12 +46,20 @@ public class CommandBuy extends AbstractMaterialCommand
 				player.getInventory().addItem(newItems);
 				addedItems += stackSize;
 			}
-			player.sendMessage("Bank: You new balance is " + bank.getBalance(player));
+			shop.sendMessage(player, "Thanks for buying at our store :)");
+			shop.sendMessage(player, "You have " + (limit - usedCount - 1) + " visits for today.");
+			bank.sendMessage(player, "You new balance is " + bank.getBalance(player));
+			usedMap.put(player.getName(), usedCount + 1);
 		}
 		else
 		{
-			player.sendMessage(String.format("Store: You can't effort %s to by %s...", totalPrize, material.name()));
+			bank.sendMessage(player, String.format("You can't effort %d€ to by %s...", totalPrize, material.name().toLowerCase()));
 		}
 		return true;
+	}
+
+	public void clearUsed()
+	{
+		usedMap.clear();
 	}
 }

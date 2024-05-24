@@ -21,7 +21,7 @@ public class CommandSell extends AbstractMaterialCommand
 		boolean isSaleAble = shop.moneyForSelling(material) * howMany > 0;
 		if (!isSaleAble)
 		{
-			player.sendMessage("Store: You can't sell this item!");
+			shop.sendMessage(player, "You can't sell this item!");
 			return true;
 		}
 		Inventory inventory = player.getInventory();
@@ -33,11 +33,11 @@ public class CommandSell extends AbstractMaterialCommand
 		{
 			removeItems(inventory, material, howMany);
 			bank.addToBalance(player, (long)shop.moneyForSelling(material) * howMany);
-			player.sendMessage("Bank: You new balance is " + bank.getBalance(player));
+			bank.sendMessage(player, "You new balance is " + bank.getBalance(player));
 		}
 		else
 		{
-			player.sendMessage("Store: You don't have enough of this item...");
+			shop.sendMessage(player, "You don't have enough of this item...");
 		}
 		return true;
 	}
