@@ -19,6 +19,9 @@ commands:
   store:
     description: "Lists all items and price in the shop"
     usage: "/store"
+  wizard:
+    description: "A wizard which will help you with the capitalism plugin"
+    usage: "/wizard"
     #aliases: [cmd, command]
     #permission: permission.node
     #permission-message: "You do not have permission to use this command"

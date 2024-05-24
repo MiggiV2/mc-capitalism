@@ -4,6 +4,8 @@ import de.mymiggi.mc.commands.CommandBuy;
 import de.mymiggi.mc.commands.CommandSell;
 import de.mymiggi.mc.commands.CommandSendMoney;
 import de.mymiggi.mc.commands.CommandStore;
+import de.mymiggi.mc.commands.CommandWizard;
+import de.mymiggi.mc.events.JoinListener;
 import de.mymiggi.mc.money.Bank;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,8 +33,14 @@ public final class Capitalism extends JavaPlugin
 		CommandStore store = new CommandStore();
 		Objects.requireNonNull(getCommand("store")).setExecutor(store);
 
+		CommandWizard wizard = new CommandWizard();
+		Objects.requireNonNull(getCommand("wizard")).setExecutor(wizard);
+
 		Server server = getServer();
 		server.getScheduler().runTaskTimer(this, buy::clearUsed, 0, 6000);
+
+		// Listener
+		getServer().getPluginManager().registerEvents(new JoinListener(), this);
 	}
 
 	@Override
