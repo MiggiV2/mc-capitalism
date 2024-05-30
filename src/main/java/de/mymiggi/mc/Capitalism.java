@@ -38,7 +38,7 @@ public final class Capitalism extends JavaPlugin
 		Objects.requireNonNull(getCommand("wizard")).setExecutor(wizard);
 
 		Server server = getServer();
-		server.getScheduler().runTaskTimer(this, buy::clearUsed, 0, 6000);
+		server.getScheduler().runTaskTimer(this, buy::resetUsedCount, 0, 6000);
 
 		// Listener
 		getServer().getPluginManager().registerEvents(new JoinListener(), this);

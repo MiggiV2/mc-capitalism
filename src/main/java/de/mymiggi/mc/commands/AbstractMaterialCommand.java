@@ -26,17 +26,21 @@ abstract public class AbstractMaterialCommand implements CommandExecutor
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args)
 	{
-		if (sender instanceof Player)
+		if (sender instanceof Player player)
 		{
+			if (!shop.isEnabled())
+			{
+				shop.sendMessage(player, "The store is currently disabled. Please come back later.");
+				return true;
+			}
 			if (args.length != 2)
 			{
 				return false;
 			}
 
-			Player player = (Player)sender;
 			// Parse material
 			Optional<Material> materialInput = shop.getMaterialByName(args[1]);
-			if (!materialInput.isPresent())
+			if (materialInput.isEmpty())
 			{
 				player.sendMessage("No block found for " + args[1]);
 				return false;

@@ -15,7 +15,7 @@ public class CommandBuy extends AbstractMaterialCommand
 		super(bank);
 	}
 
-	private final int limit = 5;
+	private static final int LIMIT = 5;
 	private final Map<String, Integer> usedMap = new HashMap<>();
 
 	@Override
@@ -28,9 +28,9 @@ public class CommandBuy extends AbstractMaterialCommand
 			return true;
 		}
 		int usedCount = usedMap.getOrDefault(player.getName(), 0);
-		if (usedCount >= limit)
+		if (usedCount >= LIMIT)
 		{
-			shop.sendMessage(player, "You have reached your limit of " + limit + " times.");
+			shop.sendMessage(player, "You have reached your limit of " + LIMIT + " times.");
 			shop.sendMessage(player, "Come back in 5 minutes :)");
 			return true;
 		}
@@ -47,7 +47,7 @@ public class CommandBuy extends AbstractMaterialCommand
 				addedItems += stackSize;
 			}
 			shop.sendMessage(player, "Thanks for buying at our store :)");
-			shop.sendMessage(player, "You have " + (limit - usedCount - 1) + " visits for today.");
+			shop.sendMessage(player, "You have " + (LIMIT - usedCount - 1) + " visits for today.");
 			bank.sendMessage(player, "You new balance is " + bank.getBalance(player));
 			usedMap.put(player.getName(), usedCount + 1);
 		}
@@ -58,7 +58,7 @@ public class CommandBuy extends AbstractMaterialCommand
 		return true;
 	}
 
-	public void clearUsed()
+	public void resetUsedCount()
 	{
 		usedMap.clear();
 	}

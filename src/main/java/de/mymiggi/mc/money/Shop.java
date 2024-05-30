@@ -19,6 +19,7 @@ public class Shop
 	private final Map<String, Material> aliasMap = new HashMap<>();
 	private final Component prefix = text("Shop: ").color(NamedTextColor.GREEN);
 	private final double fee = 0.3;
+	private static boolean enabled = true;
 
 	public Shop()
 	{
@@ -88,5 +89,15 @@ public class Shop
 	{
 		Component msg = prefix.append(text(message).color(NamedTextColor.WHITE));
 		player.sendMessage(msg);
+	}
+
+	public boolean isEnabled()
+	{
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled)
+	{
+		Shop.enabled = enabled;
 	}
 }
