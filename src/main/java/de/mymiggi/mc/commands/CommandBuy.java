@@ -1,6 +1,7 @@
 package de.mymiggi.mc.commands;
 
 import de.mymiggi.mc.money.Bank;
+import de.mymiggi.mc.money.Shop;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,9 +11,9 @@ import java.util.Map;
 
 public class CommandBuy extends AbstractMaterialCommand
 {
-	public CommandBuy(Bank bank)
+	public CommandBuy(Shop shop, Bank bank)
 	{
-		super(bank);
+		super(shop, bank);
 	}
 
 	private static final int LIMIT = 5;
@@ -48,7 +49,7 @@ public class CommandBuy extends AbstractMaterialCommand
 			}
 			shop.sendMessage(player, "Thanks for buying at our store :)");
 			shop.sendMessage(player, "You have " + (LIMIT - usedCount - 1) + " visits for today.");
-			bank.sendMessage(player, "You new balance is " + bank.getBalance(player));
+			bank.sendMessage(player, "Your new balance is " + bank.getBalance(player));
 			usedMap.put(player.getName(), usedCount + 1);
 		}
 		else

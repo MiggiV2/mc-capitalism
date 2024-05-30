@@ -1,6 +1,7 @@
 package de.mymiggi.mc.commands;
 
 import de.mymiggi.mc.money.Bank;
+import de.mymiggi.mc.money.Shop;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -10,9 +11,9 @@ import java.util.Map;
 
 public class CommandSell extends AbstractMaterialCommand
 {
-	public CommandSell(Bank bank)
+	public CommandSell(Shop shop, Bank bank)
 	{
-		super(bank);
+		super(shop, bank);
 	}
 
 	@Override
@@ -37,7 +38,7 @@ public class CommandSell extends AbstractMaterialCommand
 		}
 		else
 		{
-			shop.sendMessage(player, "You don't have enough of this item...");
+			shop.sendMessage(player, "Your don't have enough of this item...");
 		}
 		return true;
 	}

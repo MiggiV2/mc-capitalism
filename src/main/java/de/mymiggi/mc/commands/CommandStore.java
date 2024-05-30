@@ -14,7 +14,12 @@ import java.util.List;
 
 public class CommandStore implements CommandExecutor
 {
-	private final Shop shop = new Shop();
+	private final Shop shop;
+
+	public CommandStore(Shop shop)
+	{
+		this.shop = shop;
+	}
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args)

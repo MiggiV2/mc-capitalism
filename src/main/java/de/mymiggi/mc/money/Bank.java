@@ -60,7 +60,7 @@ public class Bank
 
 	private void persist()
 	{
-		repository.writeToFile(this.toString());
+		repository.saveBalances(this);
 	}
 
 	private void positivCheck(long money)

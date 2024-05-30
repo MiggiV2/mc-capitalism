@@ -14,12 +14,13 @@ import java.util.Optional;
 
 abstract public class AbstractMaterialCommand implements CommandExecutor
 {
-	protected final Shop shop = new Shop();
+	protected final Shop shop;
 
 	protected final Bank bank;
 
-	public AbstractMaterialCommand(Bank bank)
+	public AbstractMaterialCommand(Shop shop, Bank bank)
 	{
+		this.shop = shop;
 		this.bank = bank;
 	}
 

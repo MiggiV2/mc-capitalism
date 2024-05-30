@@ -88,9 +88,9 @@ public class CommandSendMoney implements CommandExecutor
 			{
 				bank.addToBalance(receiver, transaction.amount());
 				bank.sendMessage(sender, "Money successfully send to " + receiver.getName());
-				bank.sendMessage(sender, "You new balance is " + bank.getBalance(sender));
+				bank.sendMessage(sender, "Your new balance is " + bank.getBalance(sender));
 				bank.sendMessage(receiver, "You received money from " + sender.getName());
-				bank.sendMessage(receiver, "You new balance is " + bank.getBalance(receiver));
+				bank.sendMessage(receiver, "Your new balance is " + bank.getBalance(receiver));
 			}
 			else
 			{

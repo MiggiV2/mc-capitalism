@@ -5,6 +5,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,20 +17,17 @@ import static net.kyori.adventure.text.Component.text;
 
 public class Shop
 {
-	private final Map<Material, Integer> materialMoneyMap = new HashMap<>();
+	private static final Logger log = LoggerFactory.getLogger(Shop.class);
+	private final Map<Material, Integer> materialMoneyMap;
 	private final Map<String, Material> aliasMap = new HashMap<>();
 	private final Component prefix = text("Shop: ").color(NamedTextColor.GREEN);
 	private final double fee = 0.3;
 	private static boolean enabled = true;
+	private final ShopRepository shopRepository = new ShopRepository();
 
 	public Shop()
 	{
-		materialMoneyMap.put(Material.DIRT, 1);
-		materialMoneyMap.put(Material.COBBLESTONE, 2);
-		materialMoneyMap.put(Material.OAK_LOG, 3);
-		materialMoneyMap.put(Material.COAL, 18);
-		materialMoneyMap.put(Material.IRON_INGOT, 80);
-		materialMoneyMap.put(Material.GOLD_INGOT, 100);
+		materialMoneyMap = shopRepository.loadPriceList();
 
 		aliasMap.put("STONE", Material.COBBLESTONE);
 		aliasMap.put("WOOD", Material.OAK_LOG);
