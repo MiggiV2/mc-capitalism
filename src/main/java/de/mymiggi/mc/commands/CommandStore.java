@@ -28,6 +28,10 @@ public class CommandStore implements CommandExecutor
 				String line = String.format("- %s %d€\n", shop.getAliasOrDefaultName(material), shop.prizeForBuying(material));
 				message.append(line);
 			}
+			String feeExplained = String.format("Tip: There is also a fee (%d%%) for buy things!\nExample if you sell 1x gold"
+					+ " you get %d€. If you buy 1x gold you pay %d€.", shop.getFeeInPercent(), shop.moneyForSelling(Material.GOLD_INGOT),
+				shop.prizeForBuying(Material.GOLD_INGOT));
+			message.append(feeExplained);
 			shop.sendMessage((Player)sender, message.toString());
 		}
 		return true;

@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class Shop
 	private final Map<Material, Integer> materialMoneyMap = new HashMap<>();
 	private final Map<String, Material> aliasMap = new HashMap<>();
 	private final Component prefix = text("Shop: ").color(NamedTextColor.GREEN);
+	private final double fee = 0.3;
 
 	public Shop()
 	{
@@ -45,7 +47,7 @@ public class Shop
 
 	public int prizeForBuying(Material material)
 	{
-		return (int)(materialMoneyMap.getOrDefault(material, -1) * 1.3);
+		return (int)(materialMoneyMap.getOrDefault(material, -1) * (1.0 + fee));
 	}
 
 	public String getAliasOrDefaultName(Material material)
@@ -77,7 +79,12 @@ public class Shop
 		}
 	}
 
-	public void sendMessage(Player player, String message)
+	public int getFeeInPercent()
+	{
+		return (int)(this.fee * 100);
+	}
+
+	public void sendMessage(@NotNull Player player, String message)
 	{
 		Component msg = prefix.append(text(message).color(NamedTextColor.WHITE));
 		player.sendMessage(msg);
