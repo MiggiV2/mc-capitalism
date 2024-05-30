@@ -22,11 +22,13 @@ public final class Capitalism extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
+		Server server = getServer();
+
 		// Register commands
 		CommandSell sell = new CommandSell(shop, bank);
 		Objects.requireNonNull(getCommand("sell")).setExecutor(sell);
 
-		CommandBuy buy = new CommandBuy(shop, bank);
+		CommandBuy buy = new CommandBuy(shop, bank, server);
 		Objects.requireNonNull(getCommand("buy")).setExecutor(buy);
 
 		CommandSendMoney money2 = new CommandSendMoney(getServer(), bank);
@@ -38,8 +40,7 @@ public final class Capitalism extends JavaPlugin
 		CommandWizard wizard = new CommandWizard();
 		Objects.requireNonNull(getCommand("wizard")).setExecutor(wizard);
 
-		Server server = getServer();
-		server.getScheduler().runTaskTimer(this, buy::resetUsedCount, 0, 6000);
+		server.getScheduler().runTaskTimer(this, buy::resetUsedCountAndRunDiscountWheel, 0, 6000);
 
 		// Listener
 		getServer().getPluginManager().registerEvents(new JoinListener(), this);

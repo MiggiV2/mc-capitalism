@@ -84,7 +84,6 @@ public class SleepListener implements Listener
 			String randomMessage = GOOD_MORNING_MESSAGES[randomIndex];
 			Component component = Component.text(randomMessage).color(NamedTextColor.GREEN);
 			server.broadcast(component);
-			commandBuy.resetUsedCount();
 		}
 	}
 }
