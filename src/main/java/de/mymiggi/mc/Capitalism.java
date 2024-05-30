@@ -6,6 +6,7 @@ import de.mymiggi.mc.commands.CommandSendMoney;
 import de.mymiggi.mc.commands.CommandStore;
 import de.mymiggi.mc.commands.CommandWizard;
 import de.mymiggi.mc.events.JoinListener;
+import de.mymiggi.mc.events.SleepListener;
 import de.mymiggi.mc.money.Bank;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +42,7 @@ public final class Capitalism extends JavaPlugin
 
 		// Listener
 		getServer().getPluginManager().registerEvents(new JoinListener(), this);
+		getServer().getPluginManager().registerEvents(new SleepListener(server, this), this);
 	}
 
 	@Override
