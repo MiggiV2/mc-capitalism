@@ -12,6 +12,20 @@ public class ShopRepository
 {
 	private static final Logger log = LoggerFactory.getLogger(ShopRepository.class);
 	private final FileHelper fileHelper = new FileHelper("/price_list.data");
+	private static final String DEFAULT_LIST = """
+		COBBLESTONE;2
+		COAL;18
+		DIRT;1
+		OAK_LOG;3
+		ACACIA_LOG;3
+		BIRCH_LOG;3
+		CHERRY_LOG;3
+		MANGROVE_LOG;3
+		SPRUCE_LOG;3
+		SAND;40
+		IRON_INGOT;80
+		GOLD_INGOT;100
+		DIAMOND;2000""";
 
 	public void savePriceList(Map<Material, Integer> priceList)
 	{
@@ -53,6 +67,11 @@ public class ShopRepository
 				continue;
 			}
 			priceList.put(material, amount);
+		}
+		if (priceList.isEmpty())
+		{
+			fileHelper.writeToFile(DEFAULT_LIST);
+			return loadPriceList();
 		}
 		return priceList;
 	}
